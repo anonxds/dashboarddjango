@@ -60,7 +60,7 @@ class UpdateCrudUser(View):
     def  get(self, request):
         id1 = request.GET.get('id', None)
         name1 = request.GET.get('name', None)
-        address1 = request.GET.get('address', None)
+        address1 = request.GET.get('domain', None)
         age1 = request.GET.get('age', None)
 
         obj = Question.objects.get(id=id1)
@@ -72,7 +72,7 @@ class UpdateCrudUser(View):
         print(obj.name)
         print(name1)
 
-        user = {'id':obj.id,'name':obj.name,'address':obj.address,'age':obj.age}
+        user = {'id':obj.id,'name':obj.name,'domain':obj.address,'age':obj.age}
 
         data = {
             'user': user
