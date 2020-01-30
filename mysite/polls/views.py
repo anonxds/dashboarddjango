@@ -33,7 +33,7 @@ def index(request):
     #example
     about = models.Question.objects.all()
     print(about)    #here
-    return render(request,"index.html")
+    return render(request,"interface.html")
 
 def table(request):
     # Create your tests here.
@@ -43,3 +43,39 @@ def table(request):
     return render(request,"index2.html",{
         "table": table
     })
+
+
+from django.views.generic import ListView
+from .models import Question
+
+class CrudView(ListView):
+    model = Question
+    template_name = 'crud.html'
+    context_object_name = 'users'
+
+from django.views.generic import View
+from django.http import JsonResponse
+
+class UpdateCrudUser(View):
+    def  get(self, request):
+        id1 = request.GET.get('id', None)
+        name1 = request.GET.get('name', None)
+        address1 = request.GET.get('address', None)
+        age1 = request.GET.get('age', None)
+
+        obj = Question.objects.get(id=id1)
+        obj.name = name1
+        obj.address = address1
+        obj.age = age1
+        obj.save()
+
+        print(obj.name)
+        print(name1)
+
+        user = {'id':obj.id,'name':obj.name,'address':obj.address,'age':obj.age}
+
+        data = {
+            'user': user
+        }
+        print(data)
+        return JsonResponse(data)
