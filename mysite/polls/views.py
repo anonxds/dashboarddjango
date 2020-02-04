@@ -64,9 +64,12 @@ class get_info(ListView):
             _email = request.POST.get('email')
             user_info = models.infected_email.objects.filter(email=_email)
             sj = serializers.serialize('json',user_info)
-            #return HttpResponse(sj,content_type="application/json")
+
+            _allfield = models.infected_email.objects.filter(email=_email).values_list('site').distinct()
+            print(_allfield)
+           # return HttpResponse(sj,content_type="application/json")
             data = {
-                'link' : sj
+                'link' : str(_allfield).strip("<>[]'.")
             }
             return JsonResponse(data)
         else:
